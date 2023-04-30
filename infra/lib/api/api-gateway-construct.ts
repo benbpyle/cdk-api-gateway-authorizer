@@ -6,6 +6,7 @@ import {
     TokenAuthorizer,
 } from "aws-cdk-lib/aws-apigateway";
 import { IFunction } from "aws-cdk-lib/aws-lambda";
+import { Duration } from "aws-cdk-lib";
 
 export class ApiGatewayConstruct extends Construct {
     private readonly _api: RestApi;
@@ -16,6 +17,7 @@ export class ApiGatewayConstruct extends Construct {
         const authorizer = new TokenAuthorizer(this, "TokenAuthorizer", {
             authorizerName: "BearTokenAuthorizer",
             handler: func,
+            resultsCacheTtl: Duration.minutes(5),
         });
 
         this._api = new RestApi(this, "RestApi", {
